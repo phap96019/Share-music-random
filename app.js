@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const path = require('path');
 const ProductRoute = require('./routes/product');
+const UserRoute = require('./routes/admin');
 
 dotenv.config('.env');
 
@@ -17,6 +18,7 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 2) ROUTES
+app.use('/admin', UserRoute);
 app.use('/', ProductRoute);
 // app.get('/post', (req, res) => {
 //   res.send('hi');
