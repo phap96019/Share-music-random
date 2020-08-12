@@ -1,0 +1,17 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Login
+h2 LOGIN
+form(action='/admin/api/login' method="POST")
+  label(for='fname') Email
+  br
+  input#fname(type='text' name='email' value='')
+  br
+  label(for='lname') Password
+  br
+  input#lname(type='password' name='password' value='')
+  br
+  br
+  input(type='submit' value='Submit')

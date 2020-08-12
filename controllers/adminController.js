@@ -38,17 +38,20 @@ module.exports.register = async (req, res) => {
     }
   });
 };
-// module.exports.login = async (req, res) => {
-//   const form = new formidable.IncomingForm();
-//   form.parse(req, async (err, fields, files) => {
-//     const emailExist = await User.findOne({ email: fields.email });
-//     if (!emailExist) return res.status(400).send("email doesn't exist");
-//     else {
-//       const hash = emailExist.password;
-//       if (bcrypt.compareSync(fields.password, hash)) {
-//         res.cookie('userID', emailExist._id);
-//         res.redirect('/products/get');
-//       }
-//     }
-//   });
-// };
+
+module.exports.login = async (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    const emailExist = await Admin.findOne({ email: fields.email });
+    if (!emailExist) return res.status(400).send("email doesn't exist");
+    else {
+      const hash = emailExist.password;
+      if (bcrypt.compareSync(fields.password, hash)) {
+        res.cookie("userID", emailExist._id);
+        //res.redirect("/products/get");
+      } else {
+        res.send("NO!");
+      }
+    }
+  });
+};
