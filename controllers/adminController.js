@@ -48,10 +48,15 @@ module.exports.login = async (req, res) => {
       const hash = emailExist.password;
       if (bcrypt.compareSync(fields.password, hash)) {
         res.cookie("userID", emailExist._id);
+        res.send("Login ok");
         //res.redirect("/products/get");
       } else {
         res.send("NO!");
       }
     }
   });
+};
+
+module.exports.getListLink = async (req, res) => {
+  res.send("Link List");
 };
