@@ -4,7 +4,10 @@ const router = express.Router();
 const controller = require("../controllers/adminController");
 const authMiddleware = require("../middleware/authMiddleware");
 //======Link=======
-
+router.get("/api/get-all", controller.getAllLink);
+//delete
+router.post("/api/delete", controller.deleteMusicPre);
+router.post("/api/confirm", controller.confirm);
 //======Authenticated==========
 router.get("/login", controller.index);
 router.post("/api/register", controller.register);

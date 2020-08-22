@@ -1,4 +1,6 @@
 const Admin = require("../models/Admin");
+const MusicPre = require("../models/MusicPre");
+const Music = require("../models/Music");
 const bodyParser = require("body-parser");
 const formidable = require("formidable");
 const fs = require("fs");
@@ -59,4 +61,43 @@ module.exports.login = async (req, res) => {
 
 module.exports.getListLink = async (req, res) => {
   res.send("Link List");
+};
+
+module.exports.getAllLink = async (req, res) => {
+  const allLink = await MusicPre.find();
+  console.log(allLink);
+};
+
+module.exports.deleteMusicPre = async (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    try {
+      const musicDeleted = await MusicPre.deleteOne({ _id: fields._id });
+      res.send(musicDeleted);
+    } catch (error) {
+      res.send("ERRO");
+    }
+  });
+};
+
+module.exports.confirm = async (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    try {
+      const musicPre = await MusicPre.findOne({ _id: fields._id });
+      if (musicPre) {
+        const music = new Music({
+          link: musicPre.link,
+        });
+        try {
+          const saveMusic = await music.save();
+          res.send(saveMusic);
+        } catch (error) {
+          res.send(error);
+        }
+      }
+    } catch (error) {
+      res.send("ERRO");
+    }
+  });
 };
