@@ -50,8 +50,7 @@ module.exports.login = async (req, res) => {
       const hash = emailExist.password;
       if (bcrypt.compareSync(fields.password, hash)) {
         res.cookie("userID", emailExist._id);
-        res.send("Login ok");
-        //res.redirect("/products/get");
+        res.redirect("/admin/list");
       } else {
         res.send("NO!");
       }
@@ -59,8 +58,14 @@ module.exports.login = async (req, res) => {
   });
 };
 
+module.exports.logout = async (req, res) => {
+  res.clearCookie("userID");
+  res.redirect("/admin/login");
+};
+
 module.exports.getListLink = async (req, res) => {
-  res.send("Link List");
+  const allLink = await MusicPre.find();
+  res.render("allLink", { allLink });
 };
 
 module.exports.getAllLink = async (req, res) => {
@@ -73,7 +78,7 @@ module.exports.deleteMusicPre = async (req, res) => {
   form.parse(req, async (err, fields, files) => {
     try {
       const musicDeleted = await MusicPre.deleteOne({ _id: fields._id });
-      res.send(musicDeleted);
+      res.redirect("/admin/list");
     } catch (error) {
       res.send("ERRO");
     }
@@ -86,12 +91,13 @@ module.exports.confirm = async (req, res) => {
     try {
       const musicPre = await MusicPre.findOne({ _id: fields._id });
       if (musicPre) {
+        const deleteM = await MusicPre.deleteOne({ _id: fields._id });
         const music = new Music({
           link: musicPre.link,
         });
         try {
           const saveMusic = await music.save();
-          res.send(saveMusic);
+          res.redirect("/admin/list");
         } catch (error) {
           res.send(error);
         }
