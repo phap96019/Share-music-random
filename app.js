@@ -21,6 +21,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // 2) ROUTES
 app.use("/admin", UserRoute);
 app.use("/", ProductRoute);
+app.use("/:erro", (req, res) => {
+  res.send("404 not found");
+});
 // app.get('/post', (req, res) => {
 //   res.send('hi');
 // });

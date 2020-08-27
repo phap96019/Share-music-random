@@ -22,5 +22,6 @@ router.post("/api/register", controller.register);
 router.post("/api/login", controller.login);
 router.get("/api/logout", controller.logout);
 router.get("/list", authMiddleware.authMiddleware, controller.getListLink);
+router.get("/", authMiddleware.authMiddleware, controller.getListLink);
 
 module.exports = router;
